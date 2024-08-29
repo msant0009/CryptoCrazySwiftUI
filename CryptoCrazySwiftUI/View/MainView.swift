@@ -9,16 +9,16 @@ import SwiftUI
 
 struct MainView: View {
     
-    @ObservedObject var crypotoListViewModel : CryptoListViewModel
+    @ObservedObject var cryptoListViewModel : CryptoListViewModel
     
     init() {
-        self.crypotoListViewModel = CryptoListViewModel()
+        self.cryptoListViewModel = CryptoListViewModel()
     }
     
     
     var body: some View {
         NavigationView {
-            List(crypotoListViewModel.cryptoList,id:\.id) {crypto in
+            List(cryptoListViewModel.cryptoList,id:\.id) {crypto in
                 VStack{
                     Text(crypto.currency)
                         .font(.title3)
@@ -32,9 +32,19 @@ struct MainView: View {
                 }
             }.navigationTitle("Crypto Crazy")
             
-        }.onAppear {
-            crypotoListViewModel.downloadCryptos(url: URL(string:"https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json")!)
+        }.task {
+            await cryptoListViewModel.downloadCryptosAsync(url: URL(string:
+            "https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json")!)
         }
+        
+        
+ //         .onAppear {
+//            crypotoListViewModel.downloadCryptos(url:
+//            URL(string:"https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json")!)
+//        }
+
+
+
     }
 }
 

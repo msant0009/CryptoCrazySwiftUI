@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor // eliminates need for dispatch queue. All published var's will execute on main thread
     class CryptoListViewModel : ObservableObject {
         
         @Published var cryptoList = [CryptoViewModel]()
@@ -16,9 +17,12 @@ import Foundation
         func downloadCryptosContinuation(url: URL) async {
             do {
                 let cryptos = try await webservice.downloadCurrenciesContinuation(url: url)
-                DispatchQueue.main.async{
-                    self.cryptoList = cryptos.map(CryptoViewModel.init)
-                }
+                self.cryptoList = cryptos.map(CryptoViewModel.init)
+                
+//                DispatchQueue.main.async{
+//                    self.cryptoList = cryptos.map(CryptoViewModel.init)
+//                }
+                
             } catch {
                 print(error)
             }

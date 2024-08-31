@@ -30,7 +30,20 @@ struct MainView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
                 }
-            }.navigationTitle("Crypto Crazy")
+            }.toolbar(content: {
+                Button(action: {
+                    Task.init {
+                      //  cryptoListViewModel.cryptoList = [] // use this to test the refresh button.
+                        await cryptoListViewModel.downloadCryptosContinuation(url: URL(string:
+                        "https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json")!)
+                    }
+                }, label: {
+                    Text("Refresh")
+                })
+            })
+            
+            
+            .navigationTitle("Crypto Crazy")
             
         }.task {
             await cryptoListViewModel.downloadCryptosContinuation(url: URL(string:

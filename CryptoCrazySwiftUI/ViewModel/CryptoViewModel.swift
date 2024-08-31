@@ -13,19 +13,31 @@ import Foundation
         
         let webservice = WebService()
         
-        func downloadCryptosAsync(url: URL) async {
+        func downloadCryptosContinuation(url: URL) async {
             do {
-                let cryptos = try await webservice.downloadCurrenciesAsync(url: url)
+                let cryptos = try await webservice.downloadCurrenciesContinuation(url: url)
                 DispatchQueue.main.async{
                     self.cryptoList = cryptos.map(CryptoViewModel.init)
                 }
             } catch {
-                print("error")
+                print(error)
             }
             
-            
-            
         }
+        
+//        func downloadCryptosAsync(url: URL) async {
+//            do {
+//                let cryptos = try await webservice.downloadCurrenciesAsync(url: url)
+//                DispatchQueue.main.async{
+//                    self.cryptoList = cryptos.map(CryptoViewModel.init)
+//                }
+//            } catch {
+//                print("error")
+//            }
+//            
+//            
+//            
+//        }
         
 //        func downloadCryptos(url : URL) {
 //            webservice.downloadCurrencies(url: url) { result in
